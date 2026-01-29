@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProspektIA - Automação de Prospecção com IA</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Palette and Configuration -->
+    <!-- Chosen Palette: Navy Blue (#0f172a) for authority, White/Gray for clarity, Electric Blue (#3b82f6) for primary actions, Emerald Green (#10b981) for success/growth metrics. -->
+    
+    <!-- Application Structure Plan: 
+         1. Hero Section: Immediate value proposition with a simulated 'live' dashboard metric.
+         2. The Reality Check (Problem): Interactive Pie Chart visualizing the "60% wasted time" stat to make the pain concrete.
+         3. The Solution Flow: Interactive 3-step horizontal stepper to explain the process without overwhelming text.
+         4. Feature Deep Dive: Tabbed 'Simulated UI' allowing users to see the features in a mock-interface context.
+         5. ROI Projector: Interactive inputs (Deal Value, Leads) -> Bar Chart output. Proves the "Revenue" claim.
+         6. Social Proof & CTA: Traditional trust signals and final conversion point.
+         Why this structure? It moves from Emotional Hook -> Rational Data -> How it Works -> Interactive Proof -> Financial Benefit -> Action.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. "Time Allocation" Pie Chart: Goal -> Inform/Compare. Method -> Chart.js. Visualizes the "60% wasted time" text as a stark visual contrast.
+         2. "Revenue Projection" Bar Chart: Goal -> Impact/Wow Factor. Method -> Chart.js. Allows user to input their own numbers to see the 'Predictable Revenue' benefit.
+         3. "Process Steps": Goal -> Inform. Method -> DOM Manipulation. Hides complexity, reveals details on click.
+         4. "Feature Tabs": Goal -> Engagement. Method -> DOM Manipulation. Simulates software usage.
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+
+        /* Chart Container Styles - Mandatory Compliance */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Tailwind max-w-xl equivalent approx */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Utility for simulated UI elements */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #3b82f6, #06b6d4);
+        }
+
+        .step-active {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        
+        .tab-active {
+            border-bottom: 2px solid #3b82f6;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-bold text-slate-900 tracking-tighter">Prospekt<span class="text-blue-600">IA</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#problema" class="text-gray-600 hover:text-blue-600 transition">O Problema</a>
+                    <a href="#solucao" class="text-gray-600 hover:text-blue-600 transition">Como Funciona</a>
+                    <a href="#recursos" class="text-gray-600 hover:text-blue-600 transition">Recursos</a>
+                    <a href="#roi" class="text-gray-600 hover:text-blue-600 transition">Calculadora ROI</a>
+                </div>
+                <div>
+                    <button onclick="scrollToCTA()" class="bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">
+                        Teste Grátis
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- BLOCO 1: Hero Section -->
+    <header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-slate-900">
+        <!-- Background Elements -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-20">
+            <div class="absolute top-[-10%] right-[-5%] w-96 h-96 rounded-full bg-blue-500 blur-[100px]"></div>
+            <div class="absolute bottom-[-10%] left-[-5%] w-96 h-96 rounded-full bg-emerald-500 blur-[100px]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left: Copy -->
+                <div class="text-left space-y-6">
+                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-sm font-medium border border-blue-500/20">
+                        <span class="mr-2">✨</span> Nova Automação 2.0
+                    </div>
+                    <h1 class="text-5xl lg:text-6xl font-bold text-white leading-tight">
+                        Pare de caçar leads.<br>
+                        <span class="gradient-text">Comece a fechar.</span>
+                    </h1>
+                    <p class="text-lg text-slate-300 max-w-xl leading-relaxed">
+                        O ProspektIA automatiza todo o trabalho sujo: da mineração de dados ao primeiro contato. Encha seu funil com leads qualificados enquanto sua equipe foca no que importa: vender.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <button onclick="scrollToCTA()" class="bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-500 transition shadow-lg shadow-blue-600/30 flex items-center justify-center">
+                            INICIAR MEU TESTE GRÁTIS <span class="ml-2">→</span>
+                        </button>
+                    </div>
+                    <p class="text-sm text-slate-500">⚡ Comece em 2 minutos. Sem cartão de crédito.</p>
+                </div>
+
+                <!-- Right: Mockup Dashboard -->
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                    <div class="relative bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl">
+                        <!-- Mockup Header -->
+                        <div class="flex items-center justify-between mb-6 border-b border-slate-700 pb-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <div class="text-slate-400 text-xs font-mono">dashboard.prospektia.app</div>
+                        </div>
+                        <!-- Mockup Content -->
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="bg-slate-700/50 p-4 rounded-lg">
+                                <div class="text-slate-400 text-sm mb-1">Leads Gerados (Hoje)</div>
+                                <div class="text-3xl font-bold text-white" id="hero-leads-counter">0</div>
+                                <div class="text-emerald-400 text-xs mt-1">↑ 12% vs ontem</div>
+                            </div>
+                            <div class="bg-slate-700/50 p-4 rounded-lg">
+                                <div class="text-slate-400 text-sm mb-1">Reuniões Agendadas</div>
+                                <div class="text-3xl font-bold text-white" id="hero-meetings-counter">0</div>
+                                <div class="text-emerald-400 text-xs mt-1">3 novas pendentes</div>
+                            </div>
+                        </div>
+                        <!-- Mockup List -->
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between bg-slate-700/30 p-3 rounded border-l-2 border-emerald-500">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center text-xs text-white">JD</div>
+                                    <div>
+                                        <div class="text-white text-sm font-medium">João D. (CEO)</div>
+                                        <div class="text-slate-400 text-xs">Interessado na demo...</div>
+                                    </div>
+                                </div>
+                                <span class="text-emerald-400 text-xs px-2 py-1 rounded bg-emerald-400/10">Quente</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-slate-700/30 p-3 rounded border-l-2 border-blue-500">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center text-xs text-white">MA</div>
+                                    <div>
+                                        <div class="text-white text-sm font-medium">Maria A. (Mkt)</div>
+                                        <div class="text-slate-400 text-xs">Email enviado...</div>
+                                    </div>
+                                </div>
+                                <span class="text-blue-400 text-xs px-2 py-1 rounded bg-blue-400/10">Follow-up</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- BLOCO 2: Prova Social -->
+    <section class="border-b border-gray-200 bg-white py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-6">Empresas de alta performance que escalam o funil conosco:</p>
+            <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60 grayscale transition-all duration-500 hover:grayscale-0 hover:opacity-100">
+                <!-- Simple CSS Placeholders for Logos -->
+                <div class="text-xl font-bold text-slate-800 flex items-center"><span class="text-blue-600 mr-1 text-2xl">▲</span> ACME Corp</div>
+                <div class="text-xl font-bold text-slate-800 flex items-center"><span class="text-emerald-600 mr-1 text-2xl">●</span> GlobalTech</div>
+                <div class="text-xl font-bold text-slate-800 flex items-center"><span class="text-purple-600 mr-1 text-2xl">■</span> NexusAI</div>
+                <div class="text-xl font-bold text-slate-800 flex items-center"><span class="text-orange-600 mr-1 text-2xl">◆</span> StarkInd</div>
+                <div class="text-xl font-bold text-slate-800 flex items-center"><span class="text-red-600 mr-1 text-2xl">★</span> CyberDyne</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOCO 3: O Problema (Data Visualization) -->
+    <section id="problema" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Sua equipe de vendas está presa no <span class="text-red-600">'Trabalho de Operário'</span>?</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    A prospecção manual não é apenas chata, ela é ineficiente. Veja como o tempo da sua equipe está sendo desperdiçado hoje.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- Textual Pain Points -->
+                <div class="space-y-8">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center text-red-600 text-2xl">
+                            ⏳
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold text-slate-900">Pesquisas Intermináveis</h3>
+                            <p class="text-gray-600 mt-2">SDRs gastam 60% do dia minerando perfis no LinkedIn em vez de falar com decisores.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 text-2xl">
+                            📉
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold text-slate-900">Dados Obsoletos</h3>
+                            <p class="text-gray-600 mt-2">E-mails que voltam (bounce) e números errados destroem a reputação do seu domínio.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 text-2xl">
+                            🎢
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold text-slate-900">Receita Imprevisível</h3>
+                            <p class="text-gray-600 mt-2">Um mês com pipeline cheio, outro mês vazio. O fim da 'montanha-russa'.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Chart Visualization -->
+                <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200 shadow-sm">
+                    <h4 class="text-center font-semibold text-gray-700 mb-4">Alocação de Tempo do SDR</h4>
+                    
+                    <div class="chart-container">
+                        <canvas id="problemChart"></canvas>
+                    </div>
+
+                    <div class="flex justify-center mt-6 space-x-4">
+                        <button onclick="updateProblemChart('manual')" class="px-4 py-2 text-sm rounded-md bg-white border border-gray-300 shadow-sm hover:bg-gray-50 text-gray-700 font-medium transition active-chart-btn" id="btn-manual">
+                            Cenário Atual (Manual)
+                        </button>
+                        <button onclick="updateProblemChart('automated')" class="px-4 py-2 text-sm rounded-md bg-white border border-gray-300 shadow-sm hover:bg-gray-50 text-gray-700 font-medium transition" id="btn-automated">
+                            Com ProspektIA
+                        </button>
+                    </div>
+                    <p class="text-center text-xs text-gray-500 mt-4">*Baseado em média de mercado para times B2B</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOCO 4: A Solução (Stepper) -->
+    <section id="solucao" class="py-20 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-blue-400 font-semibold tracking-wider uppercase text-sm">Como Funciona</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2">Do Perfil Ideal ao Agendamento em 3 Passos</h2>
+            </div>
+
+            <!-- Interactive Process Stepper -->
+            <div class="grid lg:grid-cols-12 gap-8">
+                <!-- Steps Navigation -->
+                <div class="lg:col-span-4 space-y-4">
+                    <div onclick="setStep(1)" class="cursor-pointer p-6 rounded-xl border border-slate-700 hover:bg-slate-800 transition step-card step-active" id="step-nav-1">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white">1</div>
+                            <h3 class="text-xl font-bold">Defina o Alvo</h3>
+                        </div>
+                    </div>
+                    <div onclick="setStep(2)" class="cursor-pointer p-6 rounded-xl border border-slate-700 hover:bg-slate-800 transition step-card" id="step-nav-2">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center font-bold text-slate-400">2</div>
+                            <h3 class="text-xl font-bold">Ative o Piloto</h3>
+                        </div>
+                    </div>
+                    <div onclick="setStep(3)" class="cursor-pointer p-6 rounded-xl border border-slate-700 hover:bg-slate-800 transition step-card" id="step-nav-3">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center font-bold text-slate-400">3</div>
+                            <h3 class="text-xl font-bold">Receba Reuniões</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Content Area -->
+                <div class="lg:col-span-8 bg-slate-800 rounded-2xl p-8 border border-slate-700 flex flex-col justify-center min-h-[300px]">
+                    <div id="step-content-1" class="step-content animate-fade-in">
+                        <div class="text-4xl mb-4">🎯</div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Mapeamento Inteligente de ICP</h3>
+                        <p class="text-slate-300 text-lg mb-6">
+                            Conecte seu ICP (Ideal Customer Profile). Nossa IA varre milhões de data points para mapear os decisores certos em segundos, filtrando por cargo, setor, faturamento e tecnologia utilizada.
+                        </p>
+                        <div class="bg-slate-900 rounded p-4 border border-slate-600 font-mono text-sm text-green-400">
+                            > Buscando diretores de marketing...<br>
+                            > Filtrando empresas SaaS > 50 funcionários...<br>
+                            > 1.420 leads verificados encontrados.
+                        </div>
+                    </div>
+                    
+                    <div id="step-content-2" class="step-content hidden animate-fade-in">
+                        <div class="text-4xl mb-4">🤖</div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Engajamento Hyper-Personalizado</h3>
+                        <p class="text-slate-300 text-lg mb-6">
+                            A IA escreve abordagens únicas para cada lead. Ela analisa o LinkedIn, notícias recentes da empresa e cria uma mensagem contextual que parece 100% humana.
+                        </p>
+                        <div class="bg-slate-900 rounded p-4 border border-slate-600 font-mono text-sm text-slate-300">
+                            "Olá Roberto,<br><br>
+                            Vi que a <span class="text-blue-400">{Empresa}</span> acabou de lançar o novo app. Parabéns!<br>
+                            Muitos gestores sofrem com X nessa fase..."
+                        </div>
+                    </div>
+
+                    <div id="step-content-3" class="step-content hidden animate-fade-in">
+                        <div class="text-4xl mb-4">📅</div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Pipeline Cheio Automaticamente</h3>
+                        <p class="text-slate-300 text-lg mb-6">
+                            Acompanhe os leads qualificados caindo direto no seu CRM ou agenda. Você só entra na conversa quando o lead levanta a mão e diz "tenho interesse".
+                        </p>
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-blue-600 text-white px-4 py-2 rounded">Nova Reunião: Terça 14h</div>
+                            <div class="bg-blue-600 text-white px-4 py-2 rounded">Nova Reunião: Quinta 10h</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOCO 5: Recursos Principais (Interactive Tabs) -->
+    <section id="recursos" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900">Poder Técnico, Resultado Humano</h2>
+                <p class="text-gray-600 mt-2">Explore as ferramentas que tornam o ProspektIA único.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+                <!-- Tabs Header -->
+                <div class="flex border-b border-gray-200 overflow-x-auto">
+                    <button onclick="switchTab('feature1')" class="px-6 py-4 text-sm font-medium hover:text-blue-600 focus:outline-none flex-1 transition tab-active" id="tab-feature1">
+                        ✍️ IA Escritora
+                    </button>
+                    <button onclick="switchTab('feature2')" class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-blue-600 focus:outline-none flex-1 transition" id="tab-feature2">
+                        🛡️ Dados Verificados
+                    </button>
+                    <button onclick="switchTab('feature3')" class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-blue-600 focus:outline-none flex-1 transition" id="tab-feature3">
+                        🔄 Integração CRM
+                    </button>
+                </div>
+
+                <!-- Tabs Content -->
+                <div class="p-6 md:p-12">
+                    <!-- Feature 1 -->
+                    <div id="content-feature1" class="grid md:grid-cols-2 gap-12 items-center feature-panel">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4">Inteligência Artificial que Escreve como Humano</h3>
+                            <p class="text-gray-600 mb-6">
+                                Chega de templates genéricos. Nossa IA analisa o perfil do lead e cria mensagens personalizadas que geram taxas de resposta 3x maiores. Ela entende contexto, tom de voz e objetivo.
+                            </p>
+                            <ul class="space-y-2 text-sm text-gray-500">
+                                <li class="flex items-center">✅ A/B Testing automático de assuntos</li>
+                                <li class="flex items-center">✅ Adaptação de tom (Formal vs Casual)</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-100 rounded-lg p-6 border border-slate-200">
+                            <div class="text-xs text-gray-400 mb-2 uppercase tracking-wide">Preview da Mensagem</div>
+                            <div class="bg-white p-4 rounded shadow-sm border border-gray-100">
+                                <p class="text-sm text-gray-800">
+                                    "Oi <span class="bg-blue-100 text-blue-800 px-1 rounded">{{nome}}</span>, vi seu post sobre <span class="bg-blue-100 text-blue-800 px-1 rounded">{{topico_recente}}</span> e concordei muito.<br><br>
+                                    Como você lidera a área de <span class="bg-blue-100 text-blue-800 px-1 rounded">{{departamento}}</span> na <span class="bg-blue-100 text-blue-800 px-1 rounded">{{empresa}}</span>, pensei que..."
+                                </p>
+                            </div>
+                            <div class="mt-4 flex justify-end">
+                                <span class="text-xs text-emerald-600 font-bold bg-emerald-100 px-2 py-1 rounded">Score IA: 98/100</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div id="content-feature2" class="grid md:grid-cols-2 gap-12 items-center feature-panel hidden">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4">Leads Verificados em Tempo Real</h3>
+                            <p class="text-gray-600 mb-6">
+                                Nós não usamos listas estáticas "frias". Nossa engine valida e-mails (SMTP check) e cargos no momento da busca, garantindo 98% de entregabilidade e protegendo seu domínio.
+                            </p>
+                            <ul class="space-y-2 text-sm text-gray-500">
+                                <li class="flex items-center">✅ Validação SMTP em tempo real</li>
+                                <li class="flex items-center">✅ Detecção de "Catch-all"</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-100 rounded-lg p-6 border border-slate-200">
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between bg-white p-3 rounded shadow-sm">
+                                    <div class="text-sm">ceo@bigcorp.com</div>
+                                    <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded">✔ Válido</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-white p-3 rounded shadow-sm opacity-50">
+                                    <div class="text-sm text-red-400 line-through">mkt@oldstartup.io</div>
+                                    <span class="text-xs font-bold text-red-600 bg-red-100 px-2 py-1 rounded">✖ Bounce</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-white p-3 rounded shadow-sm">
+                                    <div class="text-sm">sales@enterprise.net</div>
+                                    <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded">✔ Válido</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div id="content-feature3" class="grid md:grid-cols-2 gap-12 items-center feature-panel hidden">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4">Integração Nativa com seu Ecossistema</h3>
+                            <p class="text-gray-600 mb-6">
+                                Sincronize leads diretamente com Salesforce, Hubspot ou Pipedrive. Sem planilhas CSV, sem confusão de dados. Tudo flui automaticamente.
+                            </p>
+                            <ul class="space-y-2 text-sm text-gray-500">
+                                <li class="flex items-center">✅ Sincronização Bidirecional</li>
+                                <li class="flex items-center">✅ Mapeamento de campos customizados</li>
+                            </ul>
+                        </div>
+                        <div class="flex items-center justify-center bg-slate-100 rounded-lg p-12 border border-slate-200">
+                            <div class="relative">
+                                <div class="w-16 h-16 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg z-10 relative">P.IA</div>
+                                <!-- Orbiting Icons (Simplified with CSS) -->
+                                <div class="absolute top-[-40px] left-[-40px] w-12 h-12 bg-white rounded-full shadow flex items-center justify-center text-xs font-bold text-orange-500">Hub</div>
+                                <div class="absolute bottom-[-40px] right-[-40px] w-12 h-12 bg-white rounded-full shadow flex items-center justify-center text-xs font-bold text-blue-500">SF</div>
+                                <div class="absolute top-[-40px] right-[-40px] w-12 h-12 bg-white rounded-full shadow flex items-center justify-center text-xs font-bold text-green-500">Pipe</div>
+                                <!-- Connectors -->
+                                <div class="absolute top-1/2 left-1/2 w-32 h-32 border-2 border-dashed border-gray-300 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOCO 6: Depoimento (Testimonial) -->
+    <section class="py-20 bg-white border-y border-gray-100">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="text-blue-600 text-6xl font-serif mb-6 opacity-30">"</div>
+            <h3 class="text-2xl md:text-3xl font-medium text-slate-900 leading-relaxed mb-8">
+                Em apenas 15 dias com o ProspektIA, nossa agência agendou mais reuniões do que em todo o trimestre passado. A precisão dos dados é assustadora.
+            </h3>
+            <div class="flex items-center justify-center space-x-4">
+                <div class="w-14 h-14 bg-gray-200 rounded-full overflow-hidden">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ricardo" alt="Ricardo Menezes" class="w-full h-full object-cover">
+                </div>
+                <div class="text-left">
+                    <div class="font-bold text-slate-900">Ricardo Menezes</div>
+                    <div class="text-sm text-gray-500">Head de Growth na TechFlow Solutions</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOCO 7: ROI Calculator (Added Value) -->
+    <section id="roi" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">Projete seu Crescimento</h2>
+                    <p class="text-gray-600 mb-8">
+                        Não confie apenas na nossa palavra. Use a calculadora para ver o impacto potencial do ProspektIA no seu faturamento anual.
+                    </p>
+                    
+                    <div class="space-y-6 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Valor Médio do Contrato (LTV)</label>
+                            <div class="relative rounded-md shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">R$</span>
+                                </div>
+                                <input type="number" id="roi-value" class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md p-3 border" placeholder="5000" value="5000">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Leads Atuais (Mensal)</label>
+                            <input type="range" id="roi-leads" min="10" max="500" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>10</span>
+                                <span id="roi-leads-val" class="font-bold text-blue-600 text-lg">50</span>
+                                <span>500</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-gray-100">
+                            <div class="text-sm text-gray-500">Receita Potencial Adicional (Ano):</div>
+                            <div class="text-3xl font-bold text-emerald-600" id="roi-result">Calculando...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                    <h4 class="text-center font-semibold text-gray-700 mb-4">Comparativo de Receita Anual</h4>
+                    <div class="chart-container">
+                        <canvas id="roiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOCO 8: CTA Final -->
+    <footer class="bg-slate-900 py-20 text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Pronto para nunca mais ter um dia sem leads qualificados?</h2>
+            <p class="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">
+                Junte-se a mais de 450 times de vendas que automatizaram o crescimento. Teste grátis por 7 dias. Cancele quando quiser.
+            </p>
+            <button onclick="alert('Demo Started! Redirecting to signup...')" class="bg-blue-600 text-white px-10 py-5 rounded-lg font-bold text-xl hover:bg-blue-500 transition shadow-lg shadow-blue-600/50 transform hover:scale-105 duration-200">
+                QUERO MEU ACESSO GRATUITO AGORA
+            </button>
+            <div class="mt-8 flex justify-center space-x-6 text-sm text-slate-500">
+                <span class="flex items-center">✅ Sem cartão de crédito</span>
+                <span class="flex items-center">✅ Setup em 5min</span>
+                <span class="flex items-center">✅ LGPD Ready</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. Hero Animations (Vanilla JS) ---
+        function animateCounter(id, end, duration) {
+            let start = 0;
+            const element = document.getElementById(id);
+            const stepTime = Math.abs(Math.floor(duration / end));
+            const timer = setInterval(() => {
+                start += 1;
+                element.textContent = start;
+                if (start == end) clearInterval(timer);
+            }, stepTime);
+        }
+
+        // Initialize animations on load
+        window.addEventListener('load', () => {
+            animateCounter("hero-leads-counter", 42, 2000);
+            animateCounter("hero-meetings-counter", 8, 2000);
+            initProblemChart();
+            initRoiChart();
+            updateRoiCalc(); // Run once to set initial state
+        });
+
+        // --- 2. Problem Chart Logic ---
+        let problemChartInstance = null;
+
+        function initProblemChart() {
+            const ctx = document.getElementById('problemChart').getContext('2d');
+            
+            // Initial Data (Manual)
+            const dataManual = {
+                labels: ['Pesquisa Manual', 'Entrada de Dados', 'Vendas Reais'],
+                datasets: [{
+                    data: [60, 25, 15],
+                    backgroundColor: ['#ef4444', '#f97316', '#10b981'],
+                    borderWidth: 0
+                }]
+            };
+
+            problemChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: dataManual,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        function updateProblemChart(mode) {
+            // Update UI buttons
+            const btnManual = document.getElementById('btn-manual');
+            const btnAuto = document.getElementById('btn-automated');
+            
+            if(mode === 'manual') {
+                btnManual.classList.add('bg-gray-100', 'border-gray-400');
+                btnAuto.classList.remove('bg-gray-100', 'border-gray-400');
+                
+                problemChartInstance.data.datasets[0].data = [60, 25, 15];
+                problemChartInstance.data.datasets[0].backgroundColor = ['#ef4444', '#f97316', '#10b981'];
+            } else {
+                btnAuto.classList.add('bg-gray-100', 'border-gray-400');
+                btnManual.classList.remove('bg-gray-100', 'border-gray-400');
+                
+                // Automated: Manual research drops to near zero, Sales time increases
+                problemChartInstance.data.datasets[0].data = [5, 5, 90]; 
+                problemChartInstance.data.datasets[0].backgroundColor = ['#94a3b8', '#94a3b8', '#3b82f6'];
+            }
+            problemChartInstance.update();
+        }
+
+        // --- 3. Stepper Logic ---
+        function setStep(stepNum) {
+            // Reset Nav Styles
+            for(let i=1; i<=3; i++) {
+                const nav = document.getElementById(`step-nav-${i}`);
+                const circle = nav.querySelector('div div'); // The numbered circle
+                
+                if(i === stepNum) {
+                    nav.classList.add('step-active');
+                    nav.classList.remove('border-slate-700');
+                    nav.classList.add('border-blue-500');
+                    circle.classList.remove('bg-slate-700', 'text-slate-400');
+                    circle.classList.add('bg-blue-600', 'text-white');
+                } else {
+                    nav.classList.remove('step-active', 'border-blue-500');
+                    nav.classList.add('border-slate-700');
+                    circle.classList.add('bg-slate-700', 'text-slate-400');
+                    circle.classList.remove('bg-blue-600', 'text-white');
+                }
+
+                // Hide/Show Content
+                const content = document.getElementById(`step-content-${i}`);
+                if(i === stepNum) {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
+            }
+        }
+
+        // --- 4. Feature Tabs Logic ---
+        function switchTab(tabName) {
+            // Tabs: feature1, feature2, feature3
+            ['feature1', 'feature2', 'feature3'].forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                const content = document.getElementById(`content-${t}`);
+                
+                if(t === tabName) {
+                    btn.classList.add('tab-active', 'text-blue-600');
+                    btn.classList.remove('text-gray-500');
+                    content.classList.remove('hidden');
+                } else {
+                    btn.classList.remove('tab-active', 'text-blue-600');
+                    btn.classList.add('text-gray-500');
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        // --- 5. ROI Calculator Logic ---
+        let roiChartInstance = null;
+        const dealInput = document.getElementById('roi-value');
+        const leadsInput = document.getElementById('roi-leads');
+        const leadsValDisplay = document.getElementById('roi-leads-val');
+        const resultDisplay = document.getElementById('roi-result');
+
+        // Listeners
+        dealInput.addEventListener('input', updateRoiCalc);
+        leadsInput.addEventListener('input', updateRoiCalc);
+
+        function initRoiChart() {
+            const ctx = document.getElementById('roiChart').getContext('2d');
+            roiChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sem Automação', 'Com ProspektIA'],
+                    datasets: [{
+                        label: 'Receita Anual Estimada (R$)',
+                        data: [0, 0],
+                        backgroundColor: ['#9ca3af', '#10b981'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, grid: { display: false } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function updateRoiCalc() {
+            const dealValue = parseFloat(dealInput.value) || 0;
+            const leadsCount = parseInt(leadsInput.value) || 0;
+            
+            leadsValDisplay.textContent = leadsCount;
+
+            // Assumptions
+            // Manual: 2% conversion from cold lead to sale
+            // ProspektIA: 5% conversion (due to better targeting + AI personalization) + 30% more volume capacity
+            
+            const annualManual = (leadsCount * 0.02) * dealValue * 12;
+            const annualAuto = (leadsCount * 1.3 * 0.05) * dealValue * 12;
+            const difference = annualAuto - annualManual;
+
+            // Format Currency
+            const formatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+            
+            resultDisplay.textContent = formatter.format(difference);
+            
+            // Update Chart
+            if(roiChartInstance) {
+                roiChartInstance.data.datasets[0].data = [annualManual, annualAuto];
+                roiChartInstance.update();
+            }
+        }
+
+        function scrollToCTA() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
