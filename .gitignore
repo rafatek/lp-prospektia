@@ -1,5 +1,7 @@
-*
-!/public/
-!/css/
-!/js/
-!/.gitignore
+index.html
+scope_analysis.md
+*.log
+.DS_Store
+node_modules/
+dist/
+build/
