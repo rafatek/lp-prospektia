@@ -20,5 +20,9 @@
   "homepage": "https://github.com/rafatek/lp-prospektia#readme",
   "devDependencies": {
     "tailwindcss": "^3.4.15"
+  },
+  "dependencies": {
+    "sharp": "^0.34.5",
+    "uglify-js": "^3.19.3"
   }
 }
