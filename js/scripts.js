@@ -1,28 +1,21 @@
 // --- Dark Mode Chart Configuration ---
-Chart.defaults.color = '#94a3b8'; // slate-400
-Chart.defaults.borderColor = '#334155'; // slate-700
-Chart.defaults.scale.grid.color = '#1e293b'; // slate-800
-
-// --- 1. Hero Animations (Vanilla JS) ---
-function animateCounter(id, end, duration) {
-    let start = 0;
-    const element = document.getElementById(id);
-    const stepTime = Math.abs(Math.floor(duration / end));
-    const timer = setInterval(() => {
-        start += 1;
-        element.textContent = start;
-        if (start == end) clearInterval(timer);
-    }, stepTime);
+// --- Dark Mode Chart Configuration ---
+function initChartDefaults() {
+    if (typeof Chart !== 'undefined') {
+        Chart.defaults.color = '#94a3b8'; // slate-400
+        Chart.defaults.borderColor = '#334155'; // slate-700
+        Chart.defaults.scale.grid.color = '#1e293b'; // slate-800
+    }
 }
 
 // Initialize animations on load
 window.addEventListener('load', () => {
-    animateCounter("hero-leads-counter", 42, 2000);
-    animateCounter("hero-meetings-counter", 8, 2000);
-    initProblemChart();
-    initDynamicWords();
-    initTestimonialCarousel();
-    initCountdownTimer();
+    try { animateCounter("hero-leads-counter", 42, 2000); } catch(e) { console.error("Animate leads counter failed", e); }
+    try { animateCounter("hero-meetings-counter", 8, 2000); } catch(e) { console.error("Animate meetings counter failed", e); }
+    try { initProblemChart(); } catch(e) { console.error("Init chart failed", e); }
+    try { initDynamicWords(); } catch(e) { console.error("Dynamic words failed", e); }
+    try { initTestimonialCarousel(); } catch(e) { console.error("Testimonials failed", e); }
+    try { initCountdownTimer(); } catch(e) { console.error("Countdown timer failed", e); }
 });
 
 // --- 1.x Countdown Timer Logic ---
@@ -131,6 +124,12 @@ function initDynamicWords() {
 let problemChartInstance = null;
 
 function initProblemChart() {
+    if (typeof Chart === 'undefined') {
+        console.warn('Chart.js not loaded. Skipping chart initialization.');
+        return;
+    }
+    initChartDefaults();
+    
     const ctx = document.getElementById('problemChart').getContext('2d');
 
     // Initial Data (Manual)
@@ -170,6 +169,8 @@ function initProblemChart() {
 }
 
 function updateProblemChart(mode) {
+    if (!problemChartInstance) return;
+
     // Update UI buttons
     const btnManual = document.getElementById('btn-manual');
     const btnAuto = document.getElementById('btn-automated');
