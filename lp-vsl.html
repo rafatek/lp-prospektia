@@ -12,56 +12,23 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Preload LCP Logo -->
+    <link rel="preload" as="image" href="public/logo.png">
+    <!-- VSL Poster Preload -->
+    <link rel="preload" as="image" href="https://fast.wistia.com/embed/medias/bg1ndqqt05/swatch">
+
+    <!-- Google Fonts (Optimized) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+    <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+    </noscript>
     <link rel="icon" href="public/icon-logo.png" type="image/png">
 
     <!-- Facebook Domain Verification -->
     <meta name="facebook-domain-verification" content="b9ohrrmtxqfutbzy7iwqc67yp2p0qv" />
-
-    <!-- UTMify Pixel Code -->
-    <script>
-        window.pixelId = "687599ea32e2db74b9fdcfd3";
-        var a = document.createElement("script");
-        a.setAttribute("async", "");
-        a.setAttribute("defer", "");
-        a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-        document.head.appendChild(a);
-    </script>
-    <!-- End UTMify Pixel Code -->
-
-    <!-- Palette and Configuration -->
-    <!-- Chosen Palette: Navy Blue (#0f172a) for authority, White/Gray for clarity, Electric Blue (#3b82f6) for primary actions, Emerald Green (#10b981) for success/growth metrics. -->
-
-    <!-- Application Structure Plan: 
-         1. Hero Section: Immediate value proposition with a simulated 'live' dashboard metric.
-         2. The Reality Check (Problem): Interactive Pie Chart visualizing the "60% wasted time" stat to make the pain concrete.
-         3. The Solution Flow: Interactive 3-step horizontal stepper to explain the process without overwhelming text.
-         4. Feature Deep Dive: Tabbed 'Simulated UI' allowing users to see the features in a mock-interface context.
-         5. ROI Projector: Interactive inputs (Deal Value, Leads) -> Bar Chart output. Proves the "Revenue" claim.
-         6. Social Proof & CTA: Traditional trust signals and final conversion point.
-         Why this structure? It moves from Emotional Hook -> Rational Data -> How it Works -> Interactive Proof -> Financial Benefit -> Action.
-    -->
-
-    <!-- Visualization & Content Choices:
-         1. "Time Allocation" Pie Chart: Goal -> Inform/Compare. Method -> Chart.js. Visualizes the "60% wasted time" text as a stark visual contrast.
-         2. "Revenue Projection" Bar Chart: Goal -> Impact/Wow Factor. Method -> Chart.js. Allows user to input their own numbers to see the 'Predictable Revenue' benefit.
-         3. "Process Steps": Goal -> Inform. Method -> DOM Manipulation. Hides complexity, reveals details on click.
-         4. "Feature Tabs": Goal -> Engagement. Method -> DOM Manipulation. Simulates software usage.
-         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
-    -->
-
-    <link href="css/styles.css" rel="stylesheet">
-
-    <!-- Microsoft Clarity Code -->
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "wc93t89hvd");
-    </script>
-    <!-- End Microsoft Clarity Code -->
 </head>
 
 <body class="antialiased selection:bg-blue-500 selection:text-white">
@@ -71,7 +38,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex-shrink-0 flex items-center">
-                    <img src="public/logo.png" alt="ProspektIA" class="h-10 w-auto">
+                    <img src="public/logo.png" alt="ProspektIA" class="h-10 w-auto" width="350" height="70" fetchpriority="high">
                 </div>
                 <!-- Menu aligned to right -->
                 <div class="hidden md:flex space-x-8">
@@ -97,11 +64,10 @@
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="flex flex-col lg:grid lg:grid-cols-2 gap-12 items-center">
                 <!-- Left: Copy -->
-                <div class="text-left space-y-6">
-                    <div
-                        class="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-medium border border-blue-500/20">
+                <div class="contents lg:block text-left lg:space-y-6">
+                    <div class="order-1 lg:order-none mb-4 lg:mb-0 inline-flex items-center px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-medium border border-blue-500/20">
                         <span class="mr-2 relative flex h-2 w-2">
                             <span
                                 class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -109,35 +75,40 @@
                         </span>
                         Está pronto para ter Leads Ilimitados?
                     </div>
-                    <h1
-                        class="text-5xl lg:text-7xl font-bold text-white leading-tight tracking-tight min-h-[160px] md:min-h-[220px]">
+                    <h1 class="order-2 lg:order-none mb-4 lg:mb-0 text-5xl lg:text-7xl font-bold text-white leading-tight tracking-tight min-h-[160px] md:min-h-[220px]">
                         Pare de caçar<br> <span id="dynamic-word" class="text-white">Leads</span>.<br>
                         <span class="gradient-text">Comece a fechar.</span>
                     </h1>
-                    <p class="text-lg text-slate-400 max-w-xl leading-relaxed font-light">
+                    <p class="order-5 lg:order-none text-lg text-slate-400 max-w-xl leading-relaxed font-light mb-6 lg:mb-0">
                         Deixe os vários agentes de IA da ProspektIA fazer o trabalho de uma equipe inteira para você.
                         Ela faz a busca de leads, entra em contato e ainda faz o atendimento deixando o cliente no ponto
                         de <strong>fechamento </strong>.
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <div class="order-4 lg:order-none flex flex-col sm:flex-row gap-4 pt-4 mb-2 lg:mb-0">
                         <a href="#plano-start-card"
                             class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg shadow-blue-600/20 flex items-center justify-center border border-transparent hover:border-blue-400">
                             Quero gerar Clientes Agora! <span class="ml-2">→</span>
                         </a>
                     </div>
-                    <p class="text-sm text-slate-500">⚡ Comece em 2 minutos. <strong>Com garantia de 7 dias</strong></p>
+                    <p class="order-6 lg:order-none text-sm text-slate-500 mb-8 lg:mb-0">⚡ Comece em 2 minutos. <strong>Com garantia de 7 dias</strong></p>
                 </div>
 
                 <!-- Right: Mockup Dashboard -->
                 <!-- Right: VSL Video -->
-                <div class="relative group">
+                <div class="order-3 lg:order-none relative group w-full mb-8 lg:mb-0">
                     <div
                         class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000">
                     </div>
                     <div
                         class="relative bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
-                        <!-- Wistia Embed -->
-                        <script src="https://fast.wistia.com/player.js" async></script><script src="https://fast.wistia.com/embed/bg1ndqqt05.js" async type="module"></script><style>wistia-player[media-id='bg1ndqqt05']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/bg1ndqqt05/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style> <wistia-player media-id="bg1ndqqt05" aspect="1.7777777777777777"></wistia-player>
+                        <!-- VSL Facade Pattern -->
+                        <div id="vsl-facade" class="relative cursor-pointer group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl aspect-video flex items-center justify-center bg-center bg-contain bg-no-repeat w-full" style="background-image: url('https://fast.wistia.com/embed/medias/bg1ndqqt05/swatch');">
+                            <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-all duration-300"></div>
+                            <button aria-label="Play VSL" class="relative z-10 w-20 h-20 rounded-full bg-blue-600/90 text-white flex items-center justify-center shadow-[0_0_30px_rgba(37,99,235,0.6)] group-hover:scale-110 group-hover:bg-blue-500 transition-all duration-300 backdrop-blur-md">
+                                <svg class="w-10 h-10 ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                        </div>
+                        <div id="vsl-container" class="hidden relative bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl aspect-video w-full"></div>
                     </div>
                 </div>
             </div>
@@ -865,7 +836,7 @@
                     </div>
                     <div class="relative rounded-2xl overflow-hidden border border-slate-700 shadow-2xl bg-slate-950">
                         <img src="public/pipe.jpeg" alt="CRM Kanban ProspektIA"
-                            class="w-full h-auto transform transition duration-500 hover:scale-[1.01]">
+                            class="w-full h-auto transform transition duration-500 hover:scale-[1.01]" width="1099" height="545" loading="lazy">
 
                         <!-- Overlay Gradient for better integration -->
                         <div
@@ -961,7 +932,7 @@
 
                     <!-- Floating Image without Box -->
                     <img src="public/mokup-dashborad.png" alt="Dashboard ProspektIA"
-                        class="relative z-10 w-[130%] max-w-none -ml-[15%] drop-shadow-2xl">
+                        class="relative z-10 w-[130%] max-w-none -ml-[15%] drop-shadow-2xl" width="1200" height="800" loading="lazy">
                 </div>
 
                 <!-- Pricing Card -->
@@ -1342,7 +1313,43 @@
     </footer>
 
     <!-- JavaScript Logic -->
-    <script src="js/scripts.js"></script>
+    <script src="js/scripts.js" defer></script>
+
+    <!-- Delayed Tracking Scripts (TBT/INP Optimization) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadTrackingScripts = () => {
+                // UTMify Pixel
+                window.pixelId = "687599ea32e2db74b9fdcfd3";
+                var a = document.createElement("script");
+                a.setAttribute("async", "");
+                a.setAttribute("defer", "");
+                a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+                document.body.appendChild(a);
+
+                // Microsoft Clarity
+                (function(c,l,a,r,i,t,y){
+                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                })(window, document, "clarity", "script", "wc93t89hvd");
+            };
+            
+            // Delay tracking load for 3.5s to unblock LCP/Main Thread
+            setTimeout(loadTrackingScripts, 3500);
+
+            // VSL Facade Injection Logic
+            const vslFacade = document.getElementById('vsl-facade');
+            if(vslFacade) {
+                vslFacade.addEventListener('click', function() {
+                    this.style.display = 'none';
+                    const container = document.getElementById('vsl-container');
+                    container.style.display = 'block';
+                    container.innerHTML = `<script src="https://fast.wistia.com/player.js" async><\/script><script src="https://fast.wistia.com/embed/bg1ndqqt05.js" async type="module"><\/script><style>wistia-player[media-id='bg1ndqqt05']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/bg1ndqqt05/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }<\/style> <wistia-player media-id="bg1ndqqt05" aspect="1.7777777777777777" autoPlay="true"><\/wistia-player>`;
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
