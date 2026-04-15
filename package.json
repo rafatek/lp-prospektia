@@ -1,0 +1,28 @@
+{
+  "name": "site-prospektia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafatek/lp-prospektia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rafatek/lp-prospektia/issues"
+  },
+  "homepage": "https://github.com/rafatek/lp-prospektia#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.15"
+  },
+  "dependencies": {
+    "sharp": "^0.34.5",
+    "uglify-js": "^3.19.3"
+  }
+}
