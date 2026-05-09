@@ -1,12 +1,15 @@
 // --- Dark Mode Chart Configuration ---
 Chart.defaults.color = '#94a3b8'; // slate-400
 Chart.defaults.borderColor = '#334155'; // slate-700
-Chart.defaults.scale.grid.color = '#1e293b'; // slate-800
+if (Chart.defaults.scale && Chart.defaults.scale.grid) {
+    Chart.defaults.scale.grid.color = '#1e293b'; // slate-800
+}
 
 // --- 1. Hero Animations (Vanilla JS) ---
 function animateCounter(id, end, duration) {
     let start = 0;
     const element = document.getElementById(id);
+    if (!element) return;
     const stepTime = Math.abs(Math.floor(duration / end));
     const timer = setInterval(() => {
         start += 1;
@@ -16,13 +19,14 @@ function animateCounter(id, end, duration) {
 }
 
 // Initialize animations on load
-window.addEventListener('load', () => {
+document.addEventListener('DOMContentLoaded', () => {
     animateCounter("hero-leads-counter", 42, 2000);
     animateCounter("hero-meetings-counter", 8, 2000);
     initProblemChart();
     initDynamicWords();
     initTestimonialCarousel();
     initCountdownTimer();
+    initDevWidget();
 });
 
 // --- 1.x Countdown Timer Logic ---
@@ -231,3 +235,49 @@ function toggleFaq(button) {
         button.classList.add('bg-slate-800/50');
     }
 }
+
+// --- 5. Dev Contact Widget Logic ---
+function initDevWidget() {
+    const trigger = document.getElementById('dev-trigger');
+    const popup = document.getElementById('dev-popup');
+    const closeBtn = document.getElementById('dev-close');
+
+    if (!trigger || !popup || !closeBtn) return;
+
+    function togglePopup() {
+        if (popup.classList.contains('hidden')) {
+            // Show popup
+            popup.classList.remove('hidden');
+            // Small delay to allow display block to apply before animating opacity/transform
+            setTimeout(() => {
+                popup.classList.remove('scale-95', 'opacity-0');
+                popup.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            // Toggle chevron
+            const svg = trigger.querySelector('svg:last-child');
+            if (svg) {
+                svg.classList.add('rotate-180');
+            }
+        } else {
+            // Hide popup
+            popup.classList.remove('scale-100', 'opacity-100');
+            popup.classList.add('scale-95', 'opacity-0');
+            
+            // Toggle chevron
+            const svg = trigger.querySelector('svg:last-child');
+            if (svg) {
+                svg.classList.remove('rotate-180');
+            }
+            
+            // Wait for transition to finish before hiding
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 300);
+        }
+    }
+
+    trigger.addEventListener('click', togglePopup);
+    closeBtn.addEventListener('click', togglePopup);
+}
+

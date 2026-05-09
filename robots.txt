@@ -1,0 +1,33 @@
+User-agent: *
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /api
+Disallow: /api/
+Disallow: /admin
+Disallow: /admin/
+Allow: /
+
+# Specifically allow GenAI crawlers for Generative Engine Optimization (GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Sitemap definition
+Sitemap: https://prospektia.com/sitemap.xml
