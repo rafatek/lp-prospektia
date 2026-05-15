@@ -2619,7 +2619,84 @@
 }
 </script>
     <!-- JSON-LD Schema.org -->
-    </head>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://prospektia.com/#organization",
+      "name": "ProspektIA",
+      "url": "https://prospektia.com",
+      "logo": "https://prospektia.com/public/logo.png",
+      "sameAs": [
+        "https://www.linkedin.com/company/prospektia",
+        "https://www.instagram.com/prospektia"
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://prospektia.com/#software",
+      "name": "ProspektIA CRM & AI Agents",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "provider": { "@id": "https://prospektia.com/#organization" }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://prospektia.com/#webpage",
+      "url": "https://prospektia.com/",
+      "name": "ProspektIA - Automação de Prospecção com IA",
+      "isPartOf": { "@id": "https://prospektia.com/#website" },
+      "about": { "@id": "https://prospektia.com/#software" },
+      "mainEntityOfPage": "https://prospektia.com/"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Como os agentes de IA da Prospektia conseguem leads qualificados?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nossos agentes de IA da Prospektia realizam extrações em tempo real de fontes públicas como Google Maps e perfis do Instagram, garantindo dados validados e focados no seu nicho."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "É possível integrar a extração de leads via CRM Kanban?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim, todas as interações e contatos capturados pelos extratores de leads são inseridos automaticamente na integração via CRM no modelo Kanban, organizando seu funil visualmente."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como capturar leads qualificados usando os extratores de leads da ProspektIA",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Defina seu Nicho",
+          "text": "Acesse a plataforma ProspektIA e insira as palavras-chave do seu nicho e a localização desejada na ferramenta de busca do Google Maps."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Inicie a Extração",
+          "text": "Clique no botão de extrair e deixe os agentes de IA da Prospektia capturarem números de WhatsApp, emails e redes sociais publicamente disponíveis."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Envie para o CRM",
+          "text": "Sincronize as listas validadas e inicie campanhas de contato automático através da integração via CRM."
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
 
 <body class="antialiased selection:bg-blue-500 selection:text-white">
 
@@ -2782,123 +2859,6 @@
                         class="text-orange-500 mr-2 text-2xl">◆</span> StarkInd</div>
                 <div class="text-xl font-bold text-white flex items-center"><span
                         class="text-red-500 mr-2 text-2xl">★</span> CyberDyne</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- BLOCO 3: O Problema (Data Visualization) -->
-    <section id="problema" class="py-24 bg-slate-900 relative overflow-hidden">
-        <!-- Decoration -->
-        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-red-500/5 blur-3xl"></div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Sua equipe de vendas está presa no <span
-                        class="text-red-500">'Trabalho de Operário'</span>?</h2>
-                <p class="text-lg text-slate-400 max-w-2xl mx-auto">
-                    A prospecção manual não é apenas chata, ela é ineficiente. Veja como o tempo da sua equipe está
-                    sendo desperdiçado hoje.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <!-- Textual Pain Points -->
-                <div class="space-y-6">
-                    <div class="flex items-start group">
-                        <div
-                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-red-500 ring-1 ring-slate-700 group-hover:ring-red-500/50 transition duration-300 shadow-lg shadow-red-500/10">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <div class="ml-4">
-                            <h3 class="text-xl font-bold text-white group-hover:text-red-400 transition">Pesquisas
-                                Intermináveis</h3>
-                            <p class="text-slate-400 mt-2 leading-relaxed">SDRs gastam 60% do dia minerando perfis no
-                                LinkedIn em vez de
-                                falar com decisores.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start group">
-                        <div
-                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-orange-500 ring-1 ring-slate-700 group-hover:ring-orange-500/50 transition duration-300 shadow-lg shadow-orange-500/10">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
-                            </svg>
-                        </div>
-                        <div class="ml-4">
-                            <h3 class="text-xl font-bold text-white group-hover:text-orange-400 transition">Dados
-                                Obsoletos</h3>
-                            <p class="text-slate-400 mt-2 leading-relaxed">E-mails que voltam (bounce) e números errados
-                                destroem a
-                                reputação do seu domínio.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start group">
-                        <div
-                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-blue-500 ring-1 ring-slate-700 group-hover:ring-blue-500/50 transition duration-300 shadow-lg shadow-blue-500/10">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
-                            </svg>
-                        </div>
-                        <div class="ml-4">
-                            <h3 class="text-xl font-bold text-white group-hover:text-blue-400 transition">Receita
-                                Imprevisível</h3>
-                            <p class="text-slate-400 mt-2 leading-relaxed">Um mês com pipeline cheio, outro mês vazio. O
-                                fim da
-                                'montanha-russa'.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Interactive Chart Visualization -->
-                <div
-                    class="bg-slate-800/50 rounded-2xl p-6 border border-slate-700 shadow-2xl backdrop-blur-sm relative">
-                    <div
-                        class="absolute inset-0 bg-gradient-to-b from-slate-800/20 to-slate-900/80 rounded-2xl pointer-events-none">
-                    </div>
-
-                    <div class="relative z-10">
-                        <h4 class="text-center font-semibold text-slate-300 mb-6 uppercase tracking-wider text-sm">
-                            Alocação de Tempo do SDR</h4>
-
-                        <div class="chart-container">
-                            <canvas id="problemChart"></canvas>
-                        </div>
-
-                        <div class="flex justify-center mt-8 space-x-4">
-                            <button onclick="updateProblemChart('manual')"
-                                class="px-5 py-2.5 text-sm rounded-lg bg-slate-700 border border-slate-600 shadow-lg text-slate-300 font-medium transition hover:bg-slate-600 active-chart-btn hover:text-white"
-                                id="btn-manual">
-                                Cenário Atual (Manual)
-                            </button>
-                            <button onclick="updateProblemChart('automated')"
-                                class="relative px-5 py-2.5 text-sm rounded-lg bg-blue-600/10 border border-blue-500 text-blue-400 font-bold transition hover:bg-blue-600 hover:text-white shadow-[0_0_15px_rgba(59,130,246,0.5)] group"
-                                id="btn-automated">
-                                <span
-                                    class="absolute inset-0 rounded-lg border border-blue-400 opacity-75 animate-ping pointer-events-none"></span>
-                                <span class="relative">Com ProspektIA</span>
-                            </button>
-                        </div>
-                        <p class="text-center text-xs text-slate-600 mt-6">*Baseado em média de mercado para times B2B
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-12 text-center">
-                <a href="#plano-start-card"
-                    class="inline-flex items-center px-8 py-4 text-lg font-bold text-white transition-all transform rounded-xl bg-red-600 hover:bg-red-500 hover:scale-105 shadow-lg shadow-red-500/25 border border-red-400/20">
-                    Parar de Perder Tempo
-                    <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </a>
             </div>
         </div>
     </section>
